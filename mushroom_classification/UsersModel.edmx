@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UsersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Mushroom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="edible" Type="nchar" MaxLength="10" />
+          <Property Name="bruises" Type="nchar" MaxLength="10" />
+          <Property Name="gill-spacing" Type="nchar" MaxLength="10" />
+          <Property Name="gill-size" Type="nchar" MaxLength="10" />
+          <Property Name="stalk-surface-above-ring" Type="nchar" MaxLength="10" />
+          <Property Name="stalk-surface-below-ring" Type="nchar" MaxLength="10" />
+          <Property Name="ring-type" Type="nchar" MaxLength="10" />
+          <Property Name="population" Type="nchar" MaxLength="10" />
+          <Property Name="habitat" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="User1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Mushroom_ToTable">
+          <End Role="User1" Type="Self.User1" Multiplicity="0..1" />
+          <End Role="Mushroom" Type="Self.Mushroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User1">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mushroom">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UsersModelStoreContainer">
+          <EntitySet Name="Mushroom" EntityType="Self.Mushroom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User1" EntityType="Self.User1" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Mushroom_ToTable" Association="Self.FK_Mushroom_ToTable">
+            <End Role="User1" EntitySet="User1" />
+            <End Role="Mushroom" EntitySet="Mushroom" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UsersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="User1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mushrooms" Relationship="UsersModel.FK_Mushroom_ToTable" FromRole="User1" ToRole="Mushroom" />
+        </EntityType>
+        <EntityContainer Name="UsersEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="User1" EntityType="Self.User1" />
+          <EntitySet Name="Mushrooms" EntityType="UsersModel.Mushroom" />
+          <AssociationSet Name="FK_Mushroom_ToTable" Association="UsersModel.FK_Mushroom_ToTable">
+            <End Role="User1" EntitySet="User1" />
+            <End Role="Mushroom" EntitySet="Mushrooms" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Mushroom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="edible" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="bruises" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="gill_spacing" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="gill_size" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="stalk_surface_above_ring" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="stalk_surface_below_ring" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ring_type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="population" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="habitat" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="User1" Relationship="UsersModel.FK_Mushroom_ToTable" FromRole="Mushroom" ToRole="User1" />
+        </EntityType>
+        <Association Name="FK_Mushroom_ToTable">
+          <End Type="UsersModel.User1" Role="User1" Multiplicity="0..1" />
+          <End Type="UsersModel.Mushroom" Role="Mushroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User1">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Mushroom">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UsersModelStoreContainer" CdmEntityContainer="UsersEntities">
+          <EntitySetMapping Name="User1">
+            <EntityTypeMapping TypeName="UsersModel.User1">
+              <MappingFragment StoreEntitySet="User1">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mushrooms">
+            <EntityTypeMapping TypeName="UsersModel.Mushroom">
+              <MappingFragment StoreEntitySet="Mushroom">
+                <ScalarProperty Name="habitat" ColumnName="habitat" />
+                <ScalarProperty Name="population" ColumnName="population" />
+                <ScalarProperty Name="ring_type" ColumnName="ring-type" />
+                <ScalarProperty Name="stalk_surface_below_ring" ColumnName="stalk-surface-below-ring" />
+                <ScalarProperty Name="stalk_surface_above_ring" ColumnName="stalk-surface-above-ring" />
+                <ScalarProperty Name="gill_size" ColumnName="gill-size" />
+                <ScalarProperty Name="gill_spacing" ColumnName="gill-spacing" />
+                <ScalarProperty Name="bruises" ColumnName="bruises" />
+                <ScalarProperty Name="edible" ColumnName="edible" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
